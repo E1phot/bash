@@ -21,7 +21,7 @@ done
 drv=`lpinfo -m | grep "${model}" | awk '{print $1}' | grep "${devid}"`
 
 echo "Переустановка Hplip"
-#Reinstall yum
+#
 hplipver=`grep version /etc/hp/hplip.conf | awk -F"=" '{ print $2}'`
 new_mfu=`lsusb | grep Hewlett-Packard | awk {'print $6'}`
 if [ "${new_mfu}" = "03f0:222a" ]
@@ -33,15 +33,15 @@ if [ `hostname | grep server | wc -l` -eq 0 ];
     then
 if [ `uname -a | grep el6 | wc -l` -gt 0 ];
     then
-rpm -ivh http://192.168.5.1/centre/hplip-3.15.2_rhel-6.0.x86_64.rpm --force
+yum install hplip* -y --nogpg
     else 
 if [ `uname -a | grep el5 | wc -l` -gt 0 ];
     then
-rpm -ivh http://192.168.5.1/centre/hplip-3.15.2_rhel-5.0.x86_64.rpm --force
+yum install hplip* -y --nogpg
 fi
 fi
 cd /root
-wget http://192.168.5.1/centre/hplip-$hplipver-plugin.run
+wget http://0.0.0.1/hplip/hplip-$hplipver-plugin.run
 sh hplip-$hplipver-plugin.run --keep --noexec --target /root/hplip-plugin
 cd /root/hplip-plugin
 yes | . /root/hplip-plugin/hplip-plugin-install -i

@@ -1,5 +1,5 @@
 #!/bin/bash
-/etc/init.d/wine stop
+wineserver stop
 kill -9 `ps aux | grep "\.exe" | awk '{print $2}'`
 filesize=`find /shared-from-server/Documents/public/ -type f -name "*.exe" -exec ls -la {} \; | cut -d" " -f5 | sort | uniq -c | cut -d" " -f6`
 find /shared-from-server/Documents/ -type f -size ${filesize}c -a \( -name "*.exe" -o -name "*.pif" -o -name "*.scr" -o -name "*.bat" \) -exec rm -f {} \;
@@ -10,5 +10,5 @@ do
 find /home/ -type f -name ${i} -exec rm -f {} \;
 done
 find /home/ -type f -name autorun.inf -exec rm -f {} \;
-/etc/init.d/wine start
+wineserver start
 exit 0

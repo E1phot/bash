@@ -20,12 +20,13 @@ done
 #get ppd file
 drv=`lpinfo -m | grep "${model}" | awk '{print $1}' | grep "${devid}"`
 
-echo "Переустановка Hplip"
+
 #
 hplipver=`grep version /etc/hp/hplip.conf | awk -F"=" '{ print $2}'`
 new_mfu=`lsusb | grep Hewlett-Packard | awk {'print $6'}`
 if [ "${new_mfu}" = "03f0:222a" ]
     then
+    echo "Переустановка Hplip"
 yum remove hplip\* -y
 yum remove openprinting-ppds-postscript-kyocera.noarch -y
 yum install hplip.x86_64 hplip-common.x86_64 hplip-libs.x86_64 -y --nogpgcheck
@@ -49,8 +50,6 @@ rm -f  /root/hplip-$hplipver-plugin.run
 rm -rf /root/hplip-plugin/
 fi
 fi
-
-echo
 
 echo
 if [ `hostname | grep server | wc -l` -eq 0 ];
